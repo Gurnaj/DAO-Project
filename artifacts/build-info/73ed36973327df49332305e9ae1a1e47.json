@@ -1,0 +1,2267 @@
+{
+	"id": "73ed36973327df49332305e9ae1a1e47",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.18",
+	"solcLongVersion": "0.8.18+commit.87f61d96",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"contracts/first.sol": {
+				"content": "// SPDX-License-Identifier: UNLICENSED    ( License number )\r\npragma solidity >=0.8.2 <0.9.0;     // compiler ka version\r\n\r\n\r\n\r\n\r\n\r\n// contract demo1\r\n// {\r\n//     uint public num=10;    // state variables -> permanentely stored on blockchain (expensive/costly - yeh gas ko cost krte hai)\r\n//     // state variables ko read krna free hai but writing/updating the state variable is not free\r\n\r\n//     // you cannot change the state variable once the contract is deployed on the Blockchain (unless apne externally koi functionality provide nahi kri)\r\n//     // aap change nahi kr sakte contract ko, you will have to make new contract (like in real world)\r\n\r\n//     // 'public' keyword (optional) -> your state variable is pulicily accesible and jo solidity hai woh automatically ek getter method create kr degi to get the value of the state variable, jiska naam aapke varibale ke naam pe hoga\r\n// }\r\n\r\n// 0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8 (contract ke account ka address)\r\n\r\n// So, Remix IDE ke development enviroment provide krta hai -> Ab yeh jo contract hai woh store kis blockchain pe ho raha hai\r\n// This contract is stored on 'Remix VM (Shanghai)' -> yeh ek Local blockchain hai jo aapke browser pe run ho rahi hai (So, if you delete your browser cache, then aapke sabhi smart contracts delete ho jaenge)\r\n\r\n\r\n\r\n\r\n// **imp -> State variables are declared inside the contract scope but outside the function scope\r\n\r\n\r\n\r\n\r\n// contract demo2\r\n// {\r\n//     uint public x;  // public state variable\r\n\r\n//     function fun1(uint num) public pure\r\n//     {\r\n//         uint a;     // local varibales -> they are not permanently stored on blockchain (yeh gas ko cost nahi krte)\r\n//         // So, aap jitne chahe utne local varibales bana sakte hain\r\n\r\n//         a=num;\r\n//     }\r\n\r\n//     function fun2() public view  returns(uint)\r\n//     {\r\n//         return x;\r\n//     }\r\n\r\n//     function func3(uint num) public \r\n//     {\r\n//         x = num;    // writing on a state varibale -> neither pure nor view\r\n//     }\r\n\r\n//     // pure -> matlab hum use hi nahi kr rahe state variable ko (neither reading nor writing)\r\n//     // view -> we are just reading the state variable\r\n//     //      -> we are writing on the state variable (write operation)\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Storage areas in EVM -> Stack, Memory, Storage\r\n\r\n// Stack - local variables of basic data type are stored in stack (yaha local variables temporarily store hote hain)\r\n\r\n// Memory - local variables of reference data types are stored in memory (volatile)\r\n\r\n// Storage - state variables are always stored in storage (storage is permanent)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// constructor (optional) -> It is a special type of function, jise create toh hum hi krte hain but call hum nahi krte, it is automatically called by solidity\r\n\r\n// contract demo3\r\n// {\r\n//     uint public a = 5;\r\n\r\n//     constructor()\r\n//     {\r\n//         a=100;\r\n//     }\r\n// }\r\n\r\n\r\n// contract demo4\r\n// {\r\n//     uint public a = 5;\r\n\r\n//     constructor(uint num)\r\n//     {\r\n//         a=num;          // So, if Deploy is executing the constuctor, toh Deploy kahe ga ki thik hai main hi execute kr raha hun but mujhe argument ki value toh do tabhi toh main execute kr paunga \r\n//     }\r\n// }\r\n\r\n// So, contructor ko kab call kiya jaata hai -> jaise hi hum deploy karenge (click on deploy button), toh woh constructor ko execute kr dega / constructor ko call kr dega\r\n\r\n// We can only create a single constructor\r\n// It is executed only once\r\n\r\n// ***imp -> constructor is optional (If you are not defining a constructor explicitly, then compiler wil create a default constructor - jo ki khali hoga)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Basic Data types\r\n\r\n// 1. Integer datatype\r\n// 2. boolean datatype\r\n// 3. Bytes data type\r\n// 4. Address data type\r\n\r\n\r\n\r\n\r\n\r\n\r\n// 1. Integer datatype\r\n\r\n// Do tarah ki hoti hain -> int(signed integers) and uint(unsigned integers)\r\n\r\n\r\n// They are of various sizes\r\n\r\n// int -> int8 to int256 ( int - int256 (by deafult) )\r\n// uint -> uint8 to uint256 ( uint - uint256 (by deafult) )\r\n\r\n\r\n\r\n// what these sizes tell -> what range of values a variable can take\r\n\r\n//  int8 : -2^7 to 2^7-1 (-128 to +127)               uint8 : 0 to 2^8-1 (0 to 255)\r\n\r\n//  int -> 1 bit is reserved for sign                  uint -> As there is not sign so\r\n//  and 7 bits are used to store value                 all 8 bits are used to store value\r\n\r\n// ***imp -> '1' is subtracted because we need to take into account 0 also\r\n\r\n\r\n\r\n\r\n// Overflow get detected at compile time\r\n\r\n\r\n\r\n\r\n// contract demo5\r\n// {\r\n//     uint8 public num1 = 0;\r\n//     uint8 public num2 = 2;\r\n//     // uint8 public num3 = -1; (error)\r\n//     uint8 public num4 = 255;\r\n//     // uint8 public num5 = 256; (error)\r\n//     uint8 public num6; // default value - 0\r\n\r\n//     int8 public num_1 = -128;\r\n//     int8 public num_2 = 127;\r\n//     // int8 public num_3 = -129; (error) \r\n//     // int8 public num_4 = 128; (error)\r\n//     int8 public num_5; // default value - 0\r\n// }\r\n\r\n\r\n// ***imp -> There is no concept of null/undefined in solidity, so if you declare a variable but not initialize it, then solidity aus variable ko intitalize kr degi with a default value and yeh default value alag alag hoti hai depending on data type of the variable (ki woh variable kis type ka hai)\r\n\r\n// integer datatype -> 0 (int and uint)\r\n// boolean datatype -> false\r\n// bytes datatype -> 00 (Hexadecimal number for null)\r\n// address datatype -> 0 (0x0000000000000000000000000000000000000000)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// 2. Boolean datatype\r\n\r\n// contract demo6\r\n// {\r\n//     bool public x1;  // default value - false\r\n//     bool public x2 = true;\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// 3. Bytes datatype -> It stores character (But actually yeh string ko store kar raha hai agar aap dekho -> collection of characters is a string)\r\n\r\n// It has various sizes -> bytes1 to bytes32\r\n\r\n// 1 byte = 1 char\r\n\r\n// contract demo7\r\n// {\r\n//     bytes1 public a1 = \"a\";\r\n//     bytes2 public a2 = \"ab\";\r\n//     bytes3 public a3 = \"abc\";\r\n//     bytes3 public a4 = \"ab\";\r\n//     bytes3 public a5;   // default value - 00 (ASCII code for null in hexadecimal)\r\n// }\r\n\r\n// Memory mein yeh character nahi store karega\r\n// Actual mein it stores the ASCII code of a character in hexadecimal\r\n\r\n\r\n\r\n// contract demo8\r\n// {\r\n//     bytes1 public a1 = \"a\";\r\n\r\n//     function fun1(bytes1 value) public\r\n//     {\r\n//         a1 = value;         // So, yaha pe main character ko as an argument nahi pass karunga -> I have to give the ASCII code of that character in hexadecimal\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n// ***imp -> Memory ko bachne ke liye, kyunki smart contracts mein memory sabse se important hai -> Memory ke basis pe gas bhi badh jaati hai -> so woh solidity jaise language humein provide krti hai (kise bhi programming language mein aapne various sizes of datatype nahi dekhe honge)\r\n\r\n\r\n// ***imp -> string datatype bohot costly hoti hai so, hume phir ise tarah ke data type ko use krna padta hai paisa bachne ke liye\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// 4. Address datatype -> It is used to store address (160-bits)\r\n\r\n// It does not support arithmetic operations\r\n\r\n// Addresses are in hexadecimal\r\n\r\n\r\n// contract demo9\r\n// {\r\n//     address public addr = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;\r\n// }\r\n\r\n// Iska zaada use tab aata hai jab hum transactions ke code likhenge\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// if statement, if else statement, else if ladder\r\n// We can only write them inside a function\r\n\r\n// contract demo10\r\n// {\r\n//     function isZero(int a) public pure returns(int)\r\n//     {\r\n//         if(a==0)\r\n//         {\r\n//             return 0;\r\n//         }\r\n//         else if(a<0)\r\n//         {\r\n//             return -1;\r\n//         }\r\n//         else \r\n//         {\r\n//             return 1;\r\n//         }\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Loops -> while loop, do while loop and for loop\r\n// We can only write them inside a function\r\n\r\n\r\n// contract demo11\r\n// {\r\n//     function fun1() public pure returns(uint)\r\n//     {\r\n//         uint sum=0;\r\n//         uint count=0;\r\n\r\n//         while(count<5)\r\n//         {\r\n//             sum=sum+3;\r\n//             count++;\r\n//         }\r\n\r\n//         return sum;\r\n//     }\r\n\r\n//     function fun2() public pure returns(uint)\r\n//     {\r\n//         uint sum=0;\r\n//         uint count=0;\r\n\r\n//         do\r\n//         {\r\n//             sum=sum+3;\r\n//             count++;\r\n//         }while(count<5);\r\n\r\n//         return sum;\r\n//     }\r\n\r\n//     function fun3() public pure returns(uint)\r\n//     {\r\n//         uint sum=0;\r\n\r\n//         for(uint count=0;count<5;count++)\r\n//         {\r\n//             sum=sum+3;\r\n//         }\r\n\r\n//         return sum;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Require Statement\r\n\r\n\r\n// contract demo12\r\n// {\r\n//     uint public my = 1;\r\n\r\n//     function isZero1(uint a) public\r\n//     {\r\n//         require(a==0,\"a is not equal to zero\");     // It will first check ki if 'a==0' -> So, agar 'a' equal hua zero ke then yeh 'my' ko 2 kr dega and agar 'a' equal nahi hua zero ke, then it will throw an error\r\n//         my = 2;\r\n//     }\r\n// }\r\n\r\n\r\n// Toh jaise hi yeh error throw karega -> Toh transaction fail ho jaega and halt ho jaega program\r\n\r\n\r\n\r\n\r\n\r\n\r\n// ***imp -> Ki kya require statement and if else statement same hain (nahi, dono mein zameen aasman ka farak hai)\r\n// require -> error throw kr raha hai when a!=0\r\n// if else -> string ko return kr raha hai when a!=0\r\n\r\n// require statement -> Woh jaise hi error throw karega toh auske phele jo bhi kaam hua hoga woh saara revert back ho jaega (matlab destroy ho jaega). So, txn will revert to it's initial state\r\n\r\n\r\n// contract demo12\r\n// {\r\n//     uint public sum;\r\n//     uint public my = 1;\r\n\r\n//     function isZero1(uint a) public\r\n//     {\r\n//         my = 2;\r\n//         require(a==0,\"a is not equal to zero\");  \r\n//         sum=10;\r\n//     }\r\n\r\n\r\n//     function isZero2(uint a) public returns(string memory)\r\n//     {\r\n//         my = 2;\r\n\r\n//         if(a==0)\r\n//         {\r\n//             sum=10;\r\n//             return \"something\";\r\n//         }\r\n//         else \r\n//         {\r\n//             return \"a is not equal to zero\";\r\n//         }\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Toh ais case mein both require statement and if else statement will work same\r\n\r\n\r\n// contract demo13\r\n// {\r\n//     uint public sum;\r\n//     uint public my = 1;\r\n\r\n//     function isZero1(uint a) public\r\n//     {\r\n//         my = 2;\r\n//         require(a==0,\"a is not equal to zero\");  \r\n//         sum=10;\r\n//     }\r\n\r\n\r\n//     function isZero2(uint a) public\r\n//     {\r\n//         my = 2;\r\n\r\n//         if(a==0)\r\n//         {\r\n//             sum=10;\r\n//         }\r\n//         else \r\n//         {\r\n//             revert(\"a is not equal to zero\");\r\n//         }\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Modifier -> It is a function only (jab code repeat ho raha ho)\r\n\r\n// Repetition in code is a bad thing in Programming\r\n\r\n// contract demo13\r\n// {\r\n//     uint public sum;\r\n\r\n//     function isZero1() public\r\n//     {\r\n//         require(3==7,\"a is not equal to zero\");  \r\n//         sum=10;\r\n//     }\r\n\r\n//     function isZero2() public\r\n//     {\r\n//         require(3==7,\"a is not equal to zero\");  \r\n//         sum=20;\r\n//     }\r\n\r\n//     function isZero3() public\r\n//     {\r\n//         require(3==7,\"a is not equal to zero\");  \r\n//         sum=30;\r\n//     }\r\n\r\n//     function isZero4() public\r\n//     {\r\n//         require(3==7,\"a is not equal to zero\");  \r\n//         sum=40;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n// Toh jaise hi hum ek function ko call karenge jisme modifier laga hua hai toh phele sida modifier pe jaega and modifier\r\n// aus function mein jo bhi code ho ga ause copy karke paste kr dega at '_;' and phir execute hoga\r\n\r\n\r\n\r\n// contract demo13\r\n// {\r\n//     uint public sum;\r\n\r\n//     modifier isZero()\r\n//     {\r\n//         require(3==7,\"3 is not equal to 7\");\r\n//         _;\r\n//     }\r\n\r\n//     function isZero1() public isZero()\r\n//     {  \r\n//         sum=10;\r\n//     }\r\n\r\n//     function isZero2() public isZero()\r\n//     {\r\n//         sum=20;\r\n//     }\r\n\r\n//     function isZero3() public isZero()\r\n//     {\r\n//         sum=30;\r\n//     }\r\n\r\n//     function isZero4() public isZero()\r\n//     { \r\n//         sum=40;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n// How to give an argument to Modifier\r\n\r\n\r\n\r\n\r\n// contract demo13\r\n// {\r\n//     uint public sum;\r\n\r\n//     modifier isZero(uint value)\r\n//     {\r\n//         require(value==0,\"a is not equal to 0\");\r\n//         _;\r\n//     }\r\n\r\n//     function isZero2(uint a) public isZero(a)\r\n//     {\r\n//         sum=20;\r\n//     }\r\n\r\n//     // Suppose ,that require statement yaha repeat ho rahi hai\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Visibility Specifiers -> specify the visibility\r\n\r\n// Cases:                      Public   Private   Internal   External\r\n\r\n// outside world                yes       no         no         yes\r\n\r\n// within the contract          yes       yes        yes        no\r\n\r\n// derived contracts            yes       no         yes        yes\r\n\r\n// other contracts              yes       no         no         yes\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// contract demo\r\n// {\r\n//     function f1() public pure returns(uint)\r\n//     {\r\n//         return 1;\r\n//         // f1()\r\n//         // f2()\r\n//         // f3()\r\n//         // f4() -> Error\r\n//     }\r\n\r\n//     function f2() private pure returns(uint)\r\n//     {\r\n//         return 2;\r\n//     }\r\n\r\n//     function f3() internal pure returns(uint)\r\n//     {\r\n//         return 3;\r\n//     }\r\n\r\n//     function f4() external pure returns(uint)\r\n//     {\r\n//         return 4;\r\n//     }\r\n// }\r\n\r\n\r\n// contract derived is demo   // Derived Contract (child contract)\r\n// {\r\n//     uint public x = f3();\r\n//     // f1() - public\r\n//     // f3() - internal\r\n//     // f4() - external\r\n//     // But, Remix IDE sirf f1() aor f4() ko hi show karega bcoz woh ouside world hai but actual mein there are three fun's - f1(), f2() and f3()\r\n// }\r\n\r\n\r\n// contract other\r\n// {\r\n//     demo obj = new demo();\r\n//     uint public x = obj.f1();\r\n//     uint public y = obj.f4();\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Remix IDE humein development enviroment provide krta hai -> UI(User Interface) deta hai to work with smart contracts (matlab woh smart contract ki dunia mein nahi woh alag dunia mein hai)\r\n\r\n// Toh Child contract apne Parent contract ke public function, internal function and external function ko access kr sakta hai\r\n\r\n// Agar koi contract kise dusre contract ke functions ko access krna chahta hai toh woh auske sirf public functions and external functions ko hi access kr sakta hai\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Reference Datatypes :\r\n\r\n// Strings\r\n// Arrays\r\n// Mappings\r\n// Struct\r\n\r\n// In case of reference datatype, we need to explicilty mention/provide the data location (jaha pe hamara reference datatype ja ke store hoga)\r\n\r\n\r\n// Basic datatypes ke case mein hamare pas kuch zaada option nahi hoti -> Agar humne kise basic datatype ke variable ko create kiya hai contract ke level pe (state variable), then woh store hoga storage mein and agar main kise basic datatype ke variable ko create krta hun function ke ander (local variable), then woh store hota stack mein\r\n\r\n\r\n\r\n\r\n// Data Location : (3 tarah ki hoti hain)\r\n\r\n// Storage -> state variables are stored in Storage (either they are of basic datatypes or reference datatypes)\r\n\r\n// Memory -> function mein agar aap kise reference datatype ko use kr rahe ho then 'memory' keyword ka use karo (ab chahe aap function argument mein use kr rahe ho ya returns() mein use kr rahe ho ya function ke ander use kr rahe ho)\r\n\r\n// Calldata -> function arguments ko store krne ke liye\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Arrays in Solidity -> In solidity, all the elements in array are of same datatype\r\n\r\n// Arrays are of two types :\r\n// 1. Fixed Array\r\n// 2. Dynamic Array\r\n\r\n\r\n\r\n// Fixed Size Array : (no. of elements are fixed)\r\n\r\n// uint[no. of elements] public arr;  (Declaration of an array)\r\n\r\n// contract demo1\r\n// {\r\n//     uint[5] public arr;     // So, all the elements of the array will be initialized to 0 (bcoz default value of integer datatype is 0)\r\n// }\r\n\r\n\r\n// contract demo2\r\n// {\r\n//     uint[5] public arr = [10,20,30,40,50];\r\n// }\r\n\r\n// contract demo3\r\n// {\r\n//     uint[5] public arr = [10,20,30,40];     // If number of supplied elements are less than the size mentioned, then the remaining elements will be initialized to 0\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n// contract demo4\r\n// {\r\n//     uint[5] public arr = [10,20,30,40,50];  // This will get stored in Storage -> Ab state variables chahe reference datatype ke ho ya basic datatype ke ho they will get stored in Storage\r\n\r\n//     function fun1() public\r\n//     {\r\n//         for(uint i=0;i<arr.length;i++)\r\n//         {\r\n//             arr[i] = arr[i] * 2;\r\n//         }\r\n//     }\r\n\r\n//     function fun2() public view returns(uint[5] memory)\r\n//     {\r\n//         return arr;\r\n//     }\r\n\r\n//     function fun3() public pure\r\n//     {\r\n//         uint[5] memory arr1;\r\n//         arr1[0] = 90;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// contract demo4\r\n// {\r\n//     uint[5] public arr1 = [10,20,30,40,50]; \r\n\r\n//     function fun1(uint[5] memory arr2) public pure returns(uint[5] memory)\r\n//     {\r\n//         for(uint i=0;i<arr2.length;i++)\r\n//         {\r\n//             arr2[i] = arr2[i] * 2;\r\n//         }\r\n\r\n//         return arr2;\r\n//     }\r\n\r\n//     function fun2() public view returns(uint[5] memory)\r\n//     {\r\n//         return arr1;\r\n//     }\r\n// }\r\n\r\n\r\n// Ab ek aor keyword hota hai 'calldata' keyword\r\n\r\n// calldata -> used only in function argument (bcoz it can only store function argument), immutable(read-only)\r\n// memory -> can be used in function argument, returns() and inside function, mutable\r\n\r\n\r\n\r\n// contract demo4\r\n// {\r\n//     uint[5] public arr1 = [10,20,30,40,50]; \r\n\r\n//     function fun1(uint[5] calldata arr2) public pure returns(uint[5] memory)    // agar hum kise reference datatype ko return kr rahe hain toh returns() mein hume 'memory' keyword likhna hoga\r\n//     {\r\n//         return arr2;\r\n//     }\r\n\r\n//     function fun2(uint[5] memory arr2) public pure returns(uint[5] memory)\r\n//     {\r\n//         for(uint i=0;i<arr2.length;i++)\r\n//         {\r\n//             arr2[i] = arr2[i] * 2;\r\n//         }\r\n\r\n//         return arr2;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n// Difference between storage and memory (in terms of data location)\r\n\r\n// storage -> stores only state variables either they are of basic datatypes or reference datatypes (state variables woh variables hote hain jo contract ke level pe declare kiye jaatein hain )\r\n// memory -> stores function arguments of reference datatypes, local variables of reference datatypes and returns()\r\n\r\n\r\n// storage -> It is permanent (lifetime of storage is limited to the lifetime of smart contract)\r\n// memory -> Volatile (Ab memory funtions se hi realted hai. So, jab function enter hota hai tab arguments and local variables create kiye jaatein hai and when function is exited tab saare arguments and local variables destroy kr diye jaatein hain) -> That's why memory is volatile (lifetime of memory is limited is function execution)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Difference between storage and memory (in terms of keyword)\r\n\r\n// contract demo4\r\n// {\r\n//     uint[5] public arr = [10,20,30,40,50]; \r\n\r\n//     function fun1() public\r\n//     {\r\n//         uint[5] storage sarray;     // storage is a pointer -> It will point to the variable it has been assigned\r\n//         sarray = arr;               // So, now 'sarray' will act as an alias of 'arr'\r\n//         sarray[0] = 90;\r\n//     }\r\n\r\n//     function fun2() public view\r\n//     {\r\n//         uint[5] memory marray;\r\n//         marray = arr;               // 'maaray' only gets a copy of data present in 'arr' (new array will be created)\r\n//         marray[0] = 100;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Dynamic Arrays -> dynamic arrays mein humein size mention nahi krna padta, woh solidity apne aap find out kr lete hai\r\n\r\n// Fixed Size Arrays -> We can not add new elements but in Dynamic Arrays we can\r\n\r\n// contract demo\r\n// {\r\n//     uint[] public arr = [4,8,5,1,9,3];\r\n\r\n//     // If I want to add new element in the array\r\n//     function insert1(uint elem) public\r\n//     {\r\n//         arr[6] = elem;      // I cannot do like this -> It will give me an error\r\n//     }\r\n\r\n//     function insert2(uint elem) public\r\n//     {\r\n//         arr.push(elem);         // This is how you add a new element in a Dynamic Array\r\n//     }\r\n\r\n//     function removeLast() public \r\n//     {\r\n//         arr.pop();      // It will remove the last element\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Struct -> Toh abhi tak humne jitne bhi datatypes dekhi hain woh ek tarah ki values ko hi store kr rahi hain like uint, int, bool, same with the array\r\n//           But, real life data same type ka nahi hota like in case of a student data (name-string, roll-uint, pass-bool)\r\n\r\n// So, Struct humein complex datatype banane mein madad krta hai.\r\n\r\n// Complex Datatype -> Combination of other existing datatype\r\n\r\n// Using struct we can create our own datatype (custom datatypes)\r\n\r\n// contract demo\r\n// {\r\n//     struct Student          // Toh hamara ek structure tayaar ho jaega and ab main aus structure ko access krna chahta hun, toh seedha toh nahi kr dakta\r\n//     {\r\n//         string name;\r\n//         uint roll;\r\n//         bool pass;\r\n//     }\r\n\r\n//     Student public s1;      // So, this is a variable of 'Student' type (now, this variable will point to this structure)\r\n\r\n//     function fun1(string memory _name, uint _roll, bool _pass) public\r\n//     {\r\n//         s1.name = _name;\r\n//         s1.roll = _roll;\r\n//         s1.pass = _pass;\r\n//     }\r\n\r\n//     // Ab agar mere paas kaye saare elements hua toh main baar-baar yehi thodi krta rahunga\r\n//     function fun2(string memory _name, uint _roll, bool _pass) public\r\n//     {\r\n//         s1 = Student(_name, _roll, _pass);\r\n//     }\r\n\r\n//     function getName() public view returns(string memory)\r\n//     {\r\n//         return s1.name;\r\n//     }\r\n\r\n//     function returnStructure() public view returns(Student memory)\r\n//     {\r\n//         return s1;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n// ***imp\r\n\r\n// contract demo\r\n// {\r\n//     struct Student \r\n//     {\r\n//         string name;\r\n//         uint roll;\r\n//         bool pass;\r\n//     }\r\n\r\n//     Student public s1;\r\n\r\n//     function fun1(Student memory s) public      // So, when we pass a structure as an argument, then we need to give input in the form of a tuple   [\"Gurnaj\",38,true]\r\n//     {\r\n//         s1 = s;\r\n//     }\r\n\r\n//     function returnStructure() public view returns(Student memory)\r\n//     {\r\n//         return s1;          // When we return a structure it returns data in the form of a tuple\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Arrays of Struct\r\n\r\n// contract demo\r\n// {\r\n//     struct Student\r\n//     {\r\n//         string name;\r\n//         uint roll;\r\n//         bool pass;\r\n//     }\r\n\r\n//     Student[4] public sarray;       // By this we are storing 4 Students in 'sarray'\r\n\r\n//     function fun1(uint index, string memory _name, uint _roll, bool _pass) public \r\n//     {\r\n//         // sarray[index].name = _name;\r\n//         // sarray[index].roll = _roll;\r\n//         // sarray[index].pass = _pass;\r\n\r\n//         sarray[index] = Student(_name, _roll, _pass);\r\n//     }\r\n\r\n//     function getName(uint index) public view returns(string memory)\r\n//     {\r\n//         return sarray[index].name;\r\n//     }\r\n\r\n//     function returnArr() public view returns(Student[4] memory)\r\n//     {\r\n//         return sarray;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n// contract demo2\r\n// {\r\n//     uint[] public arr;\r\n//     function fun1(uint index, uint value) public \r\n//     {\r\n//         arr[index]=value;      // So, this will give me an error -> bcoz, hum Dynamic Array mein seedha index se nahi add kr sakte elements ko (we need to use push() function)\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n// Agar 'n' number of students ke liye hum yeh banaye\r\n\r\n// contract demo\r\n// {\r\n//     struct Student\r\n//     {\r\n//         string name;\r\n//         uint roll;\r\n//         bool pass;\r\n//     }\r\n\r\n//     Student[] public sarray;      // Dynamic Array\r\n\r\n//     function fun1(string memory _name, uint _roll, bool _pass) public \r\n//     {\r\n//         // sarray[index] = Student(_name, _roll, _pass);    // This will throw an error\r\n//         sarray.push(Student(_name, _roll, _pass));      // So, Dynamic Array mein hum seedha index se nahi add kr sakte elements ko\r\n//     }\r\n\r\n//     function getName(uint index) public view returns(string memory)\r\n//     {\r\n//         return sarray[index].name;\r\n//     }\r\n\r\n//     function returnArr() public view returns(Student[] memory)\r\n//     {\r\n//         return sarray;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Mapping (Simple Mapping)\r\n\r\n// It works on key(index) and value concept (ek key hoti and ek value hoti hai hum unhe map kr dete hain)\r\n// mapping(key => value) where 'key' and 'value' are both datatypes\r\n\r\n\r\n// contract demo\r\n// {\r\n//     mapping(uint => string) public data;        // Manlo aap kise student ka roll no. and name store krna chahte ho\r\n\r\n//     function fun1(uint index, string memory value) public\r\n//     {\r\n//         data[index] = value;\r\n//     }\r\n\r\n//     function getValue(uint index) public view returns(string memory)\r\n//     {\r\n//         return data[index];\r\n//     }\r\n\r\n//     // You cannot return a Mapping in a Public function\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Mapping v/s Array -> Mapping mein index kuch bhi ho sakta hai sirf 'uint' nahi but Array mein index hamesha 'uint' hi hota hai (Mapping kafi flexible hoti hai)\r\n// So, Mapping aor Array mein tab difference aata hai jab Mapping mein jo key hoti hai woh 'uint' ho\r\n\r\n// contract demo\r\n// {\r\n//     mapping(uint => string) public data;\r\n//     string[8] public arr;\r\n\r\n//     function mappingFunc(uint index, string memory value) public\r\n//     {\r\n//         data[index] = value;\r\n//     }\r\n\r\n//     function arrayFunc(uint index, string memory value) public\r\n//     {\r\n//         arr[index] = value;\r\n//     }   \r\n// }\r\n\r\n\r\n// Toh Mapping and Array same sa hi toh kaam kr raha hai toh difference kaha aata hai\r\n// Matlab manlo agar main Array bhi use kr sakta hun and Mapping bhi use kr sakta hun -> Toh main konsa use krun\r\n\r\n\r\n\r\n// Toh Mapping mein hum random allocation karte hain -> Hum randomly fill krte hain slots ko\r\n\r\n// index            name\r\n\r\n// 0\r\n// 1                Ravi\r\n// 2                John\r\n// 3\r\n// 4                Alice\r\n// 5\r\n// 6\r\n// 7                Akash\r\n\r\n\r\n// Yaha jo yeh wale slots hain (0, 2, 5, 6) woh create hi nahi hua hain\r\n// So, here we only have 4 slots\r\n\r\n\r\n\r\n// But, In Array hum continous fashion mein allocation krte hain\r\n\r\n// index            name\r\n\r\n// 0                   \r\n// 1                Ravi\r\n// 2                John\r\n// 3                    \r\n// 4                Alice\r\n// 5                    \r\n// 6                    \r\n// 7                Akash\r\n\r\n\r\n// Yaha pe yeh wale slots (0, 2, 5, 6) bhi create ho chuke hain -> Chahe aapne store nahi kiye unme kuch par woh memory occupy kr rahe hain\r\n// So, here we have 8 slots\r\n\r\n\r\n\r\n\r\n// Mapping is memory efficient\r\n// Mapping is more fast than the Array\r\n\r\n\r\n// Toh agar mujhe sabhi 8 ke 8 slots ko fill krna hai toh best hoga ki main array hi use karun \r\n\r\n// Mappings are not iterable while Arrays are iterable\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Mapping with Struct -> How to use Mapping with Struct\r\n\r\n// contract demo\r\n// {\r\n//     struct Student\r\n//     {\r\n//         string name;\r\n//         uint roll;\r\n//         bool pass;\r\n//     }\r\n\r\n//     mapping(uint => Student) public data;         // data kya hai -> data is a variable of Mapping type\r\n\r\n//     function fun1(uint index, string memory _name, uint _roll, bool _pass) public \r\n//     {\r\n//         // data[index].name = _name;\r\n//         // data[index].roll = _roll;\r\n//         // data[index].pass = _pass;\r\n\r\n//         data[index] = Student(_name, _roll, _pass);\r\n//     }\r\n\r\n//     function getName(uint index) public view returns(string memory)\r\n//     {\r\n//         return data[index].name;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n// When we use Mapping with struct or array -> They will come at right side\r\n\r\n\r\n\r\n\r\n\r\n// Mapping with Array -> How to use Mapping with Array\r\n\r\n// contract demo1\r\n// {\r\n//     mapping(address => uint[]) public data;     // data function which is automatically created by the compiler -> Ause humein do arguments dene padenge - address and array ke element ka index  (and it will return the element at that index)                                               \r\n\r\n//     function fun1(address a, uint x) public\r\n//     {\r\n//         data[a].push(x);\r\n//     }\r\n\r\n    // function fun2(address a, uint index) public view returns(uint)\r\n    // {\r\n    //     return data[a][index];\r\n    // }\r\n// }\r\n\r\n// ***imp -> Yaha mujhe pura ka pura array nahi dega data() function, but woh mujhe element dega array ka\r\n\r\n// Address(example) -> 0xb794f5ea0ba39494ce839613fffba74279579268\r\n\r\n\r\n\r\n\r\n// contract demo2\r\n// {\r\n//     mapping(address => uint[10]) public data;\r\n\r\n//     function fun1(address a, uint index, uint elem) public\r\n//     {\r\n//         data[a][index] = elem;\r\n//     }\r\n\r\n//     function fun2(address a, uint index) public view returns(uint)\r\n//     {\r\n//         return data[a][index];\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Nested Mapping -> Mapping ke ander Mapping (2-D Array)\r\n\r\n// Mapping is something like an array only\r\n\r\n// contract demo\r\n// {\r\n//     mapping(address => mapping(address => bool)) public data;\r\n\r\n//     function fun1(address row, address col, bool elem) public \r\n//     {\r\n//         data[row][col] = elem;\r\n//     }\r\n\r\n//     function fun2(address row, address col) public view returns(bool)\r\n//     {\r\n//         return data[row][col];\r\n//     }\r\n// }\r\n\r\n// Address 1 -> 0x66B0b1d2930059407DcC30F1A2305435fc37315E\r\n// Address 2 -> 0x6827b8f6cc60497d9bf5210d602C0EcaFDF7C405\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Some important points : (***imp)\r\n\r\n// Mappings are only allowed as state variables -> which means we cannot declare a mapping inside a function\r\n\r\n// Mapping cannot be used as parameters in public functions\r\n\r\n// We cannot return a Mapping in a public function\r\n\r\n// These restrictions are also true for arrays and structs that contain Mapping\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Global Variables -> They are predefined in solidity (Build-In). They are a kind of state varibales only (jise humne create nahi kiya but solidity ne kiya hia)\r\n\r\n// msg.sender -> It will gives the caller address (matlab jisne function ko call kiya hia auske account ka address(EOA))\r\n\r\n// contract demo\r\n// {\r\n//     function returnCallerAddr() public view returns(address)\r\n//     {\r\n//         return msg.sender;\r\n//     }\r\n// }\r\n\r\n\r\n// block.timestamp (uint256) -> It gives the time of the current block in seconds (unix - 01 January 1970)\r\n// Hum aise use kr sakte hain voting dapp ke case mein -> Like agar aap chahte ho ki 2 baje se 5 baje tak hi voting ho\r\n\r\n\r\n// contract demo\r\n// {\r\n//     function fun1() public view returns(uint)\r\n//     {\r\n//         return block.timestamp;\r\n//     }\r\n// }\r\n\r\n\r\n// Hum ek manager bana sakte hain\r\n\r\n// contract demo\r\n// {\r\n//     address public manager;\r\n\r\n//     constructor(){                  // Jo bhi ais function ko call karega (technically toh solidity khud hi call karegi ais function ko but deploy button pe toh hum hi click karenge)\r\n//         manager = msg.sender;       // constructor function ek hi baar execute hota hai bs\r\n//     }\r\n\r\n//     function returnCallerAddr() public view returns(address)\r\n//     {\r\n//         return msg.sender;\r\n//     }\r\n// }\r\n\r\n// Ab apne agar koi external functionality provide nahi kri hai change krne ke liye manager ko toh yahi aapka permanent manager ban jaega\r\n\r\n\r\n// It is used to define a owner of the smart contract\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Array with struct\r\n\r\n// contract demo\r\n// {\r\n//     struct Student\r\n//     {\r\n//         string name;\r\n//         uint roll;\r\n//         bool pass;\r\n//         uint[3] marks;\r\n//     }\r\n\r\n//     Student public s1;\r\n\r\n//     function fun1(string memory _name, uint _roll, bool _pass, uint[3] memory _marks) public\r\n//     {\r\n//         s1.name = _name;\r\n//         s1.roll = _roll;\r\n//         s1.pass = _pass;\r\n//         s1.marks = _marks;\r\n//     }\r\n\r\n//     function returnStruct() public view returns(Student memory)\r\n//     {\r\n//         return s1;\r\n//     }\r\n// }\r\n\r\n\r\n// ***Ques ::\r\n// Sir, when I use an array within a structure and I create a public state variable of that structure. So, auska jo getter function banega after deployment it doesn't show array after clicking on it?\r\n\r\n\r\n\r\n// In Solidity, when you click on a struct variable that contains an array in a tool like Remix IDE,\r\n// you may not see the array directly displayed. This is because the tool's user interface may not \r\n// provide a built-in way to visualize and interact with array elements within a struct.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// It's convention (but not required) to start parameter names with an underscore (_) in order to differentiate them from global variables\r\n// It's convention to start private function names with an underscore (_).\r\n\r\n// In Solidity, functions are 'public' by \r\n// Default visibility of state variables is 'internal'\r\n\r\n\r\n// Access in case of function -> call\r\n// Access in case of variables -> read/write\r\n\r\n\r\n// keccak256 hash function take a single argument of bytes type\r\n// It will return a hexadecimal number(hash)\r\n\r\n// keccak256(abi.encodePacked(\"aaaac\"));\r\n// b1f078126895a1424524de5321b339ab00408010b7cf0e6ed451514981e58aa9\r\n\r\n// keccak256(abi.encodePacked(\"aaaab\"));\r\n// 6e91ec6b618bb462a4a6ee5aa2cb0e9cf30f7a052bb467b0ba58b8748c00d2e5\r\n\r\n\r\n\r\n// Note: Secure random-number generation in blockchain is a very difficult problem.\r\n\r\n\r\n\r\n// Type Casting\r\n\r\n// uint8 a = 5;\r\n// uint256 b = 6;\r\n\r\n// throws an error because a * b returns a uint256, not uint8:\r\n// uint8 c = a * b;\r\n\r\n// we have to typecast b as a uint8 to make it work:\r\n// uint8 c = a * uint8(b);\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Events\r\n\r\n// It is a way through which your contract can communicate with your app's front-end to tell that something happened on the blockchain\r\n// It may be listening to that event using js (ki jaise hi woh event ho toh yeh krdena)\r\n\r\n// declare the event\r\n// event IntegersAdded(uint x, uint y, uint result);\r\n\r\n// function add(uint _x, uint _y) public returns (uint) {\r\n//   uint result = _x + _y;\r\n\r\n//   // fire an event to let the app know the function was called:\r\n//   emit IntegersAdded(_x, _y, result);\r\n\r\n//   return result;\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// DELETE Keyword -> It doesn't delete a variable bs yeh variable ko auski default value pe le aata hai (Default initial value)\r\n// It is useful jab hum gas bachana chahte hain\r\n\r\n\r\n// In case of fixed array 'delete' keyword will set all the elements to it's default value\r\n// But, In case of dynamic array 'delete' keyword will make its length 0\r\n\r\n// 'delete' has no effect on Mapping\r\n\r\n\r\n\r\n\r\n// contract demo\r\n// {\r\n//     uint public a = 10;\r\n//     string public str = \"Hello World\";\r\n//     uint[5] public sarr = [3,5,2,7,4];\r\n//     uint[] public darr = [23,63,74];\r\n\r\n//     function fun1() public {\r\n//         delete a;\r\n//     }\r\n\r\n//     function fun2() public {\r\n//         delete str;\r\n//     }\r\n\r\n//     function fun3() public {\r\n//         delete sarr;\r\n//     }\r\n\r\n//     function fun4() public {\r\n//         delete darr;\r\n//     }\r\n// }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Function Overloading (Polymorphism)\r\n\r\n// Solidity kehti hai ki hum do functions ko same naam de sakte hain agar ya toh unke parameter ki \r\n// datatype alag ya number of parameters alag hon\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// Mapping cannot be iterated par agar hamare pas sequence mein key ho tab kiya ja sakta hai\r\n// Agar random allocation nahi hai tab maping ko bhi iterate krna possible hai\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n// While declaring array length should only be a number or an expression it cannot be a variable \r\n// uint[len] public arr;    This is invalid\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\ncontract demo\r\n{\r\n    uint public gas;\r\n    uint public assad;\r\n    uint public assd;\r\n    uint public aad;\r\n\r\n    constructor(){\r\n        gas = block.gaslimit;\r\n    }\r\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			}
+		}
+	},
+	"output": {
+		"contracts": {
+			"contracts/first.sol": {
+				"demo": {
+					"abi": [
+						{
+							"inputs": [],
+							"stateMutability": "nonpayable",
+							"type": "constructor"
+						},
+						{
+							"inputs": [],
+							"name": "aad",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "assad",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "assd",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "gas",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "    /* \"contracts/first.sol\":36143:36313  contract demo... */\n  mstore(0x40, 0x80)\n    /* \"contracts/first.sol\":36258:36310  constructor(){... */\n  callvalue\n  dup1\n  iszero\n  tag_1\n  jumpi\n  0x00\n  dup1\n  revert\ntag_1:\n  pop\n    /* \"contracts/first.sol\":36288:36302  block.gaslimit */\n  gaslimit\n    /* \"contracts/first.sol\":36282:36285  gas */\n  0x00\n    /* \"contracts/first.sol\":36282:36302  gas = block.gaslimit */\n  dup2\n  swap1\n  sstore\n  pop\n    /* \"contracts/first.sol\":36143:36313  contract demo... */\n  dataSize(sub_0)\n  dup1\n  dataOffset(sub_0)\n  0x00\n  codecopy\n  0x00\n  return\nstop\n\nsub_0: assembly {\n        /* \"contracts/first.sol\":36143:36313  contract demo... */\n      mstore(0x40, 0x80)\n      callvalue\n      dup1\n      iszero\n      tag_1\n      jumpi\n      0x00\n      dup1\n      revert\n    tag_1:\n      pop\n      jumpi(tag_2, lt(calldatasize, 0x04))\n      shr(0xe0, calldataload(0x00))\n      dup1\n      0x38e0090c\n      eq\n      tag_3\n      jumpi\n      dup1\n      0x401742ea\n      eq\n      tag_4\n      jumpi\n      dup1\n      0x6ca7c216\n      eq\n      tag_5\n      jumpi\n      dup1\n      0x70c6cd7c\n      eq\n      tag_6\n      jumpi\n    tag_2:\n      0x00\n      dup1\n      revert\n        /* \"contracts/first.sol\":36211:36227  uint public assd */\n    tag_3:\n      tag_7\n      tag_8\n      jump\t// in\n    tag_7:\n      mload(0x40)\n      tag_9\n      swap2\n      swap1\n      tag_10\n      jump\t// in\n    tag_9:\n      mload(0x40)\n      dup1\n      swap2\n      sub\n      swap1\n      return\n        /* \"contracts/first.sol\":36234:36249  uint public aad */\n    tag_4:\n      tag_11\n      tag_12\n      jump\t// in\n    tag_11:\n      mload(0x40)\n      tag_13\n      swap2\n      swap1\n      tag_10\n      jump\t// in\n    tag_13:\n      mload(0x40)\n      dup1\n      swap2\n      sub\n      swap1\n      return\n        /* \"contracts/first.sol\":36165:36180  uint public gas */\n    tag_5:\n      tag_14\n      tag_15\n      jump\t// in\n    tag_14:\n      mload(0x40)\n      tag_16\n      swap2\n      swap1\n      tag_10\n      jump\t// in\n    tag_16:\n      mload(0x40)\n      dup1\n      swap2\n      sub\n      swap1\n      return\n        /* \"contracts/first.sol\":36187:36204  uint public assad */\n    tag_6:\n      tag_17\n      tag_18\n      jump\t// in\n    tag_17:\n      mload(0x40)\n      tag_19\n      swap2\n      swap1\n      tag_10\n      jump\t// in\n    tag_19:\n      mload(0x40)\n      dup1\n      swap2\n      sub\n      swap1\n      return\n        /* \"contracts/first.sol\":36211:36227  uint public assd */\n    tag_8:\n      sload(0x02)\n      dup2\n      jump\t// out\n        /* \"contracts/first.sol\":36234:36249  uint public aad */\n    tag_12:\n      sload(0x03)\n      dup2\n      jump\t// out\n        /* \"contracts/first.sol\":36165:36180  uint public gas */\n    tag_15:\n      sload(0x00)\n      dup2\n      jump\t// out\n        /* \"contracts/first.sol\":36187:36204  uint public assad */\n    tag_18:\n      sload(0x01)\n      dup2\n      jump\t// out\n        /* \"#utility.yul\":7:84   */\n    tag_20:\n        /* \"#utility.yul\":44:51   */\n      0x00\n        /* \"#utility.yul\":73:78   */\n      dup2\n        /* \"#utility.yul\":62:78   */\n      swap1\n      pop\n        /* \"#utility.yul\":7:84   */\n      swap2\n      swap1\n      pop\n      jump\t// out\n        /* \"#utility.yul\":90:208   */\n    tag_21:\n        /* \"#utility.yul\":177:201   */\n      tag_25\n        /* \"#utility.yul\":195:200   */\n      dup2\n        /* \"#utility.yul\":177:201   */\n      tag_20\n      jump\t// in\n    tag_25:\n        /* \"#utility.yul\":172:175   */\n      dup3\n        /* \"#utility.yul\":165:202   */\n      mstore\n        /* \"#utility.yul\":90:208   */\n      pop\n      pop\n      jump\t// out\n        /* \"#utility.yul\":214:436   */\n    tag_10:\n        /* \"#utility.yul\":307:311   */\n      0x00\n        /* \"#utility.yul\":345:347   */\n      0x20\n        /* \"#utility.yul\":334:343   */\n      dup3\n        /* \"#utility.yul\":330:348   */\n      add\n        /* \"#utility.yul\":322:348   */\n      swap1\n      pop\n        /* \"#utility.yul\":358:429   */\n      tag_27\n        /* \"#utility.yul\":426:427   */\n      0x00\n        /* \"#utility.yul\":415:424   */\n      dup4\n        /* \"#utility.yul\":411:428   */\n      add\n        /* \"#utility.yul\":402:408   */\n      dup5\n        /* \"#utility.yul\":358:429   */\n      tag_21\n      jump\t// in\n    tag_27:\n        /* \"#utility.yul\":214:436   */\n      swap3\n      swap2\n      pop\n      pop\n      jump\t// out\n\n    auxdata: 0xa26469706673582212203f4a4efd67ceeff60c8ade58b4402ccd6707bcf18b3bd96de08844de3b83096064736f6c63430008120033\n}\n",
+						"bytecode": {
+							"functionDebugData": {
+								"@_18": {
+									"entryPoint": null,
+									"id": 18,
+									"parameterSlots": 0,
+									"returnSlots": 0
+								}
+							},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "608060405234801561001057600080fd5b5045600081905550610131806100276000396000f3fe6080604052348015600f57600080fd5b506004361060465760003560e01c806338e0090c14604b578063401742ea1460655780636ca7c21614607f57806370c6cd7c146099575b600080fd5b605160b3565b604051605c919060e2565b60405180910390f35b606b60b9565b6040516076919060e2565b60405180910390f35b608560bf565b6040516090919060e2565b60405180910390f35b609f60c5565b60405160aa919060e2565b60405180910390f35b60025481565b60035481565b60005481565b60015481565b6000819050919050565b60dc8160cb565b82525050565b600060208201905060f5600083018460d5565b9291505056fea26469706673582212203f4a4efd67ceeff60c8ade58b4402ccd6707bcf18b3bd96de08844de3b83096064736f6c63430008120033",
+							"opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH2 0x10 JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP GASLIMIT PUSH1 0x0 DUP2 SWAP1 SSTORE POP PUSH2 0x131 DUP1 PUSH2 0x27 PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN INVALID PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH1 0x46 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x38E0090C EQ PUSH1 0x4B JUMPI DUP1 PUSH4 0x401742EA EQ PUSH1 0x65 JUMPI DUP1 PUSH4 0x6CA7C216 EQ PUSH1 0x7F JUMPI DUP1 PUSH4 0x70C6CD7C EQ PUSH1 0x99 JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x51 PUSH1 0xB3 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0x5C SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x6B PUSH1 0xB9 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0x76 SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x85 PUSH1 0xBF JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0x90 SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x9F PUSH1 0xC5 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0xAA SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x2 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x3 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x0 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x1 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x0 DUP2 SWAP1 POP SWAP2 SWAP1 POP JUMP JUMPDEST PUSH1 0xDC DUP2 PUSH1 0xCB JUMP JUMPDEST DUP3 MSTORE POP POP JUMP JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP3 ADD SWAP1 POP PUSH1 0xF5 PUSH1 0x0 DUP4 ADD DUP5 PUSH1 0xD5 JUMP JUMPDEST SWAP3 SWAP2 POP POP JUMP INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 EXTCODEHASH 0x4A 0x4E REVERT PUSH8 0xCEEFF60C8ADE58B4 BLOCKHASH 0x2C 0xCD PUSH8 0x7BCF18B3BD96DE0 DUP9 PREVRANDAO 0xDE EXTCODESIZE DUP4 MULMOD PUSH1 0x64 PUSH20 0x6F6C634300081200330000000000000000000000 ",
+							"sourceMap": "36143:170:0:-:0;;;36258:52;;;;;;;;;;36288:14;36282:3;:20;;;;36143:170;;;;;;"
+						},
+						"deployedBytecode": {
+							"functionDebugData": {
+								"@aad_9": {
+									"entryPoint": 185,
+									"id": 9,
+									"parameterSlots": 0,
+									"returnSlots": 0
+								},
+								"@assad_5": {
+									"entryPoint": 197,
+									"id": 5,
+									"parameterSlots": 0,
+									"returnSlots": 0
+								},
+								"@assd_7": {
+									"entryPoint": 179,
+									"id": 7,
+									"parameterSlots": 0,
+									"returnSlots": 0
+								},
+								"@gas_3": {
+									"entryPoint": 191,
+									"id": 3,
+									"parameterSlots": 0,
+									"returnSlots": 0
+								},
+								"abi_encode_t_uint256_to_t_uint256_fromStack": {
+									"entryPoint": 213,
+									"id": null,
+									"parameterSlots": 2,
+									"returnSlots": 0
+								},
+								"abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed": {
+									"entryPoint": 226,
+									"id": null,
+									"parameterSlots": 2,
+									"returnSlots": 1
+								},
+								"cleanup_t_uint256": {
+									"entryPoint": 203,
+									"id": null,
+									"parameterSlots": 1,
+									"returnSlots": 1
+								}
+							},
+							"generatedSources": [
+								{
+									"ast": {
+										"nodeType": "YulBlock",
+										"src": "0:439:1",
+										"statements": [
+											{
+												"body": {
+													"nodeType": "YulBlock",
+													"src": "52:32:1",
+													"statements": [
+														{
+															"nodeType": "YulAssignment",
+															"src": "62:16:1",
+															"value": {
+																"name": "value",
+																"nodeType": "YulIdentifier",
+																"src": "73:5:1"
+															},
+															"variableNames": [
+																{
+																	"name": "cleaned",
+																	"nodeType": "YulIdentifier",
+																	"src": "62:7:1"
+																}
+															]
+														}
+													]
+												},
+												"name": "cleanup_t_uint256",
+												"nodeType": "YulFunctionDefinition",
+												"parameters": [
+													{
+														"name": "value",
+														"nodeType": "YulTypedName",
+														"src": "34:5:1",
+														"type": ""
+													}
+												],
+												"returnVariables": [
+													{
+														"name": "cleaned",
+														"nodeType": "YulTypedName",
+														"src": "44:7:1",
+														"type": ""
+													}
+												],
+												"src": "7:77:1"
+											},
+											{
+												"body": {
+													"nodeType": "YulBlock",
+													"src": "155:53:1",
+													"statements": [
+														{
+															"expression": {
+																"arguments": [
+																	{
+																		"name": "pos",
+																		"nodeType": "YulIdentifier",
+																		"src": "172:3:1"
+																	},
+																	{
+																		"arguments": [
+																			{
+																				"name": "value",
+																				"nodeType": "YulIdentifier",
+																				"src": "195:5:1"
+																			}
+																		],
+																		"functionName": {
+																			"name": "cleanup_t_uint256",
+																			"nodeType": "YulIdentifier",
+																			"src": "177:17:1"
+																		},
+																		"nodeType": "YulFunctionCall",
+																		"src": "177:24:1"
+																	}
+																],
+																"functionName": {
+																	"name": "mstore",
+																	"nodeType": "YulIdentifier",
+																	"src": "165:6:1"
+																},
+																"nodeType": "YulFunctionCall",
+																"src": "165:37:1"
+															},
+															"nodeType": "YulExpressionStatement",
+															"src": "165:37:1"
+														}
+													]
+												},
+												"name": "abi_encode_t_uint256_to_t_uint256_fromStack",
+												"nodeType": "YulFunctionDefinition",
+												"parameters": [
+													{
+														"name": "value",
+														"nodeType": "YulTypedName",
+														"src": "143:5:1",
+														"type": ""
+													},
+													{
+														"name": "pos",
+														"nodeType": "YulTypedName",
+														"src": "150:3:1",
+														"type": ""
+													}
+												],
+												"src": "90:118:1"
+											},
+											{
+												"body": {
+													"nodeType": "YulBlock",
+													"src": "312:124:1",
+													"statements": [
+														{
+															"nodeType": "YulAssignment",
+															"src": "322:26:1",
+															"value": {
+																"arguments": [
+																	{
+																		"name": "headStart",
+																		"nodeType": "YulIdentifier",
+																		"src": "334:9:1"
+																	},
+																	{
+																		"kind": "number",
+																		"nodeType": "YulLiteral",
+																		"src": "345:2:1",
+																		"type": "",
+																		"value": "32"
+																	}
+																],
+																"functionName": {
+																	"name": "add",
+																	"nodeType": "YulIdentifier",
+																	"src": "330:3:1"
+																},
+																"nodeType": "YulFunctionCall",
+																"src": "330:18:1"
+															},
+															"variableNames": [
+																{
+																	"name": "tail",
+																	"nodeType": "YulIdentifier",
+																	"src": "322:4:1"
+																}
+															]
+														},
+														{
+															"expression": {
+																"arguments": [
+																	{
+																		"name": "value0",
+																		"nodeType": "YulIdentifier",
+																		"src": "402:6:1"
+																	},
+																	{
+																		"arguments": [
+																			{
+																				"name": "headStart",
+																				"nodeType": "YulIdentifier",
+																				"src": "415:9:1"
+																			},
+																			{
+																				"kind": "number",
+																				"nodeType": "YulLiteral",
+																				"src": "426:1:1",
+																				"type": "",
+																				"value": "0"
+																			}
+																		],
+																		"functionName": {
+																			"name": "add",
+																			"nodeType": "YulIdentifier",
+																			"src": "411:3:1"
+																		},
+																		"nodeType": "YulFunctionCall",
+																		"src": "411:17:1"
+																	}
+																],
+																"functionName": {
+																	"name": "abi_encode_t_uint256_to_t_uint256_fromStack",
+																	"nodeType": "YulIdentifier",
+																	"src": "358:43:1"
+																},
+																"nodeType": "YulFunctionCall",
+																"src": "358:71:1"
+															},
+															"nodeType": "YulExpressionStatement",
+															"src": "358:71:1"
+														}
+													]
+												},
+												"name": "abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed",
+												"nodeType": "YulFunctionDefinition",
+												"parameters": [
+													{
+														"name": "headStart",
+														"nodeType": "YulTypedName",
+														"src": "284:9:1",
+														"type": ""
+													},
+													{
+														"name": "value0",
+														"nodeType": "YulTypedName",
+														"src": "296:6:1",
+														"type": ""
+													}
+												],
+												"returnVariables": [
+													{
+														"name": "tail",
+														"nodeType": "YulTypedName",
+														"src": "307:4:1",
+														"type": ""
+													}
+												],
+												"src": "214:222:1"
+											}
+										]
+									},
+									"contents": "{\n\n    function cleanup_t_uint256(value) -> cleaned {\n        cleaned := value\n    }\n\n    function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {\n        mstore(pos, cleanup_t_uint256(value))\n    }\n\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart , value0) -> tail {\n        tail := add(headStart, 32)\n\n        abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))\n\n    }\n\n}\n",
+									"id": 1,
+									"language": "Yul",
+									"name": "#utility.yul"
+								}
+							],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "6080604052348015600f57600080fd5b506004361060465760003560e01c806338e0090c14604b578063401742ea1460655780636ca7c21614607f57806370c6cd7c146099575b600080fd5b605160b3565b604051605c919060e2565b60405180910390f35b606b60b9565b6040516076919060e2565b60405180910390f35b608560bf565b6040516090919060e2565b60405180910390f35b609f60c5565b60405160aa919060e2565b60405180910390f35b60025481565b60035481565b60005481565b60015481565b6000819050919050565b60dc8160cb565b82525050565b600060208201905060f5600083018460d5565b9291505056fea26469706673582212203f4a4efd67ceeff60c8ade58b4402ccd6707bcf18b3bd96de08844de3b83096064736f6c63430008120033",
+							"opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x4 CALLDATASIZE LT PUSH1 0x46 JUMPI PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR DUP1 PUSH4 0x38E0090C EQ PUSH1 0x4B JUMPI DUP1 PUSH4 0x401742EA EQ PUSH1 0x65 JUMPI DUP1 PUSH4 0x6CA7C216 EQ PUSH1 0x7F JUMPI DUP1 PUSH4 0x70C6CD7C EQ PUSH1 0x99 JUMPI JUMPDEST PUSH1 0x0 DUP1 REVERT JUMPDEST PUSH1 0x51 PUSH1 0xB3 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0x5C SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x6B PUSH1 0xB9 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0x76 SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x85 PUSH1 0xBF JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0x90 SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x9F PUSH1 0xC5 JUMP JUMPDEST PUSH1 0x40 MLOAD PUSH1 0xAA SWAP2 SWAP1 PUSH1 0xE2 JUMP JUMPDEST PUSH1 0x40 MLOAD DUP1 SWAP2 SUB SWAP1 RETURN JUMPDEST PUSH1 0x2 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x3 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x0 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x1 SLOAD DUP2 JUMP JUMPDEST PUSH1 0x0 DUP2 SWAP1 POP SWAP2 SWAP1 POP JUMP JUMPDEST PUSH1 0xDC DUP2 PUSH1 0xCB JUMP JUMPDEST DUP3 MSTORE POP POP JUMP JUMPDEST PUSH1 0x0 PUSH1 0x20 DUP3 ADD SWAP1 POP PUSH1 0xF5 PUSH1 0x0 DUP4 ADD DUP5 PUSH1 0xD5 JUMP JUMPDEST SWAP3 SWAP2 POP POP JUMP INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 EXTCODEHASH 0x4A 0x4E REVERT PUSH8 0xCEEFF60C8ADE58B4 BLOCKHASH 0x2C 0xCD PUSH8 0x7BCF18B3BD96DE0 DUP9 PREVRANDAO 0xDE EXTCODESIZE DUP4 MULMOD PUSH1 0x64 PUSH20 0x6F6C634300081200330000000000000000000000 ",
+							"sourceMap": "36143:170:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;36211:16;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;36234:15;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;36165;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;36187:17;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;36211:16;;;;:::o;36234:15::-;;;;:::o;36165:::-;;;;:::o;36187:17::-;;;;:::o;7:77:1:-;44:7;73:5;62:16;;7:77;;;:::o;90:118::-;177:24;195:5;177:24;:::i;:::-;172:3;165:37;90:118;;:::o;214:222::-;307:4;345:2;334:9;330:18;322:26;;358:71;426:1;415:9;411:17;402:6;358:71;:::i;:::-;214:222;;;;:::o"
+						},
+						"gasEstimates": {
+							"creation": {
+								"codeDepositCost": "61000",
+								"executionCost": "22224",
+								"totalCost": "83224"
+							},
+							"external": {
+								"aad()": "2429",
+								"assad()": "2473",
+								"assd()": "2407",
+								"gas()": "2451"
+							}
+						},
+						"legacyAssembly": {
+							".code": [
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "PUSH",
+									"source": 0,
+									"value": "80"
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "PUSH",
+									"source": 0,
+									"value": "40"
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "MSTORE",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "CALLVALUE",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "DUP1",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "ISZERO",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "PUSH [tag]",
+									"source": 0,
+									"value": "1"
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "JUMPI",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "PUSH",
+									"source": 0,
+									"value": "0"
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "DUP1",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "REVERT",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "tag",
+									"source": 0,
+									"value": "1"
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "JUMPDEST",
+									"source": 0
+								},
+								{
+									"begin": 36258,
+									"end": 36310,
+									"name": "POP",
+									"source": 0
+								},
+								{
+									"begin": 36288,
+									"end": 36302,
+									"name": "GASLIMIT",
+									"source": 0
+								},
+								{
+									"begin": 36282,
+									"end": 36285,
+									"name": "PUSH",
+									"source": 0,
+									"value": "0"
+								},
+								{
+									"begin": 36282,
+									"end": 36302,
+									"name": "DUP2",
+									"source": 0
+								},
+								{
+									"begin": 36282,
+									"end": 36302,
+									"name": "SWAP1",
+									"source": 0
+								},
+								{
+									"begin": 36282,
+									"end": 36302,
+									"name": "SSTORE",
+									"source": 0
+								},
+								{
+									"begin": 36282,
+									"end": 36302,
+									"name": "POP",
+									"source": 0
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "PUSH #[$]",
+									"source": 0,
+									"value": "0000000000000000000000000000000000000000000000000000000000000000"
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "DUP1",
+									"source": 0
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "PUSH [$]",
+									"source": 0,
+									"value": "0000000000000000000000000000000000000000000000000000000000000000"
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "PUSH",
+									"source": 0,
+									"value": "0"
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "CODECOPY",
+									"source": 0
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "PUSH",
+									"source": 0,
+									"value": "0"
+								},
+								{
+									"begin": 36143,
+									"end": 36313,
+									"name": "RETURN",
+									"source": 0
+								}
+							],
+							".data": {
+								"0": {
+									".auxdata": "a26469706673582212203f4a4efd67ceeff60c8ade58b4402ccd6707bcf18b3bd96de08844de3b83096064736f6c63430008120033",
+									".code": [
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "80"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "MSTORE",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "CALLVALUE",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "ISZERO",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "1"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPI",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "0"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "REVERT",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "tag",
+											"source": 0,
+											"value": "1"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "POP",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "4"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "CALLDATASIZE",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "LT",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "2"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPI",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "0"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "CALLDATALOAD",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "E0"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "SHR",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "38E0090C"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "EQ",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "3"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPI",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "401742EA"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "EQ",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "4"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPI",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "6CA7C216"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "EQ",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "5"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPI",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "70C6CD7C"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "EQ",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "6"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPI",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "tag",
+											"source": 0,
+											"value": "2"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "PUSH",
+											"source": 0,
+											"value": "0"
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36143,
+											"end": 36313,
+											"name": "REVERT",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "tag",
+											"source": 0,
+											"value": "3"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "7"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "8"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "tag",
+											"source": 0,
+											"value": "7"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "9"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "10"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "tag",
+											"source": 0,
+											"value": "9"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "SUB",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "RETURN",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "tag",
+											"source": 0,
+											"value": "4"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "11"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "12"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "tag",
+											"source": 0,
+											"value": "11"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "13"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "10"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "tag",
+											"source": 0,
+											"value": "13"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "SUB",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "RETURN",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "tag",
+											"source": 0,
+											"value": "5"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "14"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "15"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "tag",
+											"source": 0,
+											"value": "14"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "16"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "10"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "tag",
+											"source": 0,
+											"value": "16"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "SUB",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "RETURN",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "tag",
+											"source": 0,
+											"value": "6"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "17"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "18"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "tag",
+											"source": 0,
+											"value": "17"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "19"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "PUSH [tag]",
+											"source": 0,
+											"value": "10"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "tag",
+											"source": 0,
+											"value": "19"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "PUSH",
+											"source": 0,
+											"value": "40"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "MLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "DUP1",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "SWAP2",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "SUB",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "SWAP1",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "RETURN",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "tag",
+											"source": 0,
+											"value": "8"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "PUSH",
+											"source": 0,
+											"value": "2"
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "SLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"name": "DUP2",
+											"source": 0
+										},
+										{
+											"begin": 36211,
+											"end": 36227,
+											"jumpType": "[out]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "tag",
+											"source": 0,
+											"value": "12"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "PUSH",
+											"source": 0,
+											"value": "3"
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "SLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"name": "DUP2",
+											"source": 0
+										},
+										{
+											"begin": 36234,
+											"end": 36249,
+											"jumpType": "[out]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "tag",
+											"source": 0,
+											"value": "15"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "PUSH",
+											"source": 0,
+											"value": "0"
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "SLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"name": "DUP2",
+											"source": 0
+										},
+										{
+											"begin": 36165,
+											"end": 36180,
+											"jumpType": "[out]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "tag",
+											"source": 0,
+											"value": "18"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "JUMPDEST",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "PUSH",
+											"source": 0,
+											"value": "1"
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "SLOAD",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"name": "DUP2",
+											"source": 0
+										},
+										{
+											"begin": 36187,
+											"end": 36204,
+											"jumpType": "[out]",
+											"name": "JUMP",
+											"source": 0
+										},
+										{
+											"begin": 7,
+											"end": 84,
+											"name": "tag",
+											"source": 1,
+											"value": "20"
+										},
+										{
+											"begin": 7,
+											"end": 84,
+											"name": "JUMPDEST",
+											"source": 1
+										},
+										{
+											"begin": 44,
+											"end": 51,
+											"name": "PUSH",
+											"source": 1,
+											"value": "0"
+										},
+										{
+											"begin": 73,
+											"end": 78,
+											"name": "DUP2",
+											"source": 1
+										},
+										{
+											"begin": 62,
+											"end": 78,
+											"name": "SWAP1",
+											"source": 1
+										},
+										{
+											"begin": 62,
+											"end": 78,
+											"name": "POP",
+											"source": 1
+										},
+										{
+											"begin": 7,
+											"end": 84,
+											"name": "SWAP2",
+											"source": 1
+										},
+										{
+											"begin": 7,
+											"end": 84,
+											"name": "SWAP1",
+											"source": 1
+										},
+										{
+											"begin": 7,
+											"end": 84,
+											"name": "POP",
+											"source": 1
+										},
+										{
+											"begin": 7,
+											"end": 84,
+											"jumpType": "[out]",
+											"name": "JUMP",
+											"source": 1
+										},
+										{
+											"begin": 90,
+											"end": 208,
+											"name": "tag",
+											"source": 1,
+											"value": "21"
+										},
+										{
+											"begin": 90,
+											"end": 208,
+											"name": "JUMPDEST",
+											"source": 1
+										},
+										{
+											"begin": 177,
+											"end": 201,
+											"name": "PUSH [tag]",
+											"source": 1,
+											"value": "25"
+										},
+										{
+											"begin": 195,
+											"end": 200,
+											"name": "DUP2",
+											"source": 1
+										},
+										{
+											"begin": 177,
+											"end": 201,
+											"name": "PUSH [tag]",
+											"source": 1,
+											"value": "20"
+										},
+										{
+											"begin": 177,
+											"end": 201,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 1
+										},
+										{
+											"begin": 177,
+											"end": 201,
+											"name": "tag",
+											"source": 1,
+											"value": "25"
+										},
+										{
+											"begin": 177,
+											"end": 201,
+											"name": "JUMPDEST",
+											"source": 1
+										},
+										{
+											"begin": 172,
+											"end": 175,
+											"name": "DUP3",
+											"source": 1
+										},
+										{
+											"begin": 165,
+											"end": 202,
+											"name": "MSTORE",
+											"source": 1
+										},
+										{
+											"begin": 90,
+											"end": 208,
+											"name": "POP",
+											"source": 1
+										},
+										{
+											"begin": 90,
+											"end": 208,
+											"name": "POP",
+											"source": 1
+										},
+										{
+											"begin": 90,
+											"end": 208,
+											"jumpType": "[out]",
+											"name": "JUMP",
+											"source": 1
+										},
+										{
+											"begin": 214,
+											"end": 436,
+											"name": "tag",
+											"source": 1,
+											"value": "10"
+										},
+										{
+											"begin": 214,
+											"end": 436,
+											"name": "JUMPDEST",
+											"source": 1
+										},
+										{
+											"begin": 307,
+											"end": 311,
+											"name": "PUSH",
+											"source": 1,
+											"value": "0"
+										},
+										{
+											"begin": 345,
+											"end": 347,
+											"name": "PUSH",
+											"source": 1,
+											"value": "20"
+										},
+										{
+											"begin": 334,
+											"end": 343,
+											"name": "DUP3",
+											"source": 1
+										},
+										{
+											"begin": 330,
+											"end": 348,
+											"name": "ADD",
+											"source": 1
+										},
+										{
+											"begin": 322,
+											"end": 348,
+											"name": "SWAP1",
+											"source": 1
+										},
+										{
+											"begin": 322,
+											"end": 348,
+											"name": "POP",
+											"source": 1
+										},
+										{
+											"begin": 358,
+											"end": 429,
+											"name": "PUSH [tag]",
+											"source": 1,
+											"value": "27"
+										},
+										{
+											"begin": 426,
+											"end": 427,
+											"name": "PUSH",
+											"source": 1,
+											"value": "0"
+										},
+										{
+											"begin": 415,
+											"end": 424,
+											"name": "DUP4",
+											"source": 1
+										},
+										{
+											"begin": 411,
+											"end": 428,
+											"name": "ADD",
+											"source": 1
+										},
+										{
+											"begin": 402,
+											"end": 408,
+											"name": "DUP5",
+											"source": 1
+										},
+										{
+											"begin": 358,
+											"end": 429,
+											"name": "PUSH [tag]",
+											"source": 1,
+											"value": "21"
+										},
+										{
+											"begin": 358,
+											"end": 429,
+											"jumpType": "[in]",
+											"name": "JUMP",
+											"source": 1
+										},
+										{
+											"begin": 358,
+											"end": 429,
+											"name": "tag",
+											"source": 1,
+											"value": "27"
+										},
+										{
+											"begin": 358,
+											"end": 429,
+											"name": "JUMPDEST",
+											"source": 1
+										},
+										{
+											"begin": 214,
+											"end": 436,
+											"name": "SWAP3",
+											"source": 1
+										},
+										{
+											"begin": 214,
+											"end": 436,
+											"name": "SWAP2",
+											"source": 1
+										},
+										{
+											"begin": 214,
+											"end": 436,
+											"name": "POP",
+											"source": 1
+										},
+										{
+											"begin": 214,
+											"end": 436,
+											"name": "POP",
+											"source": 1
+										},
+										{
+											"begin": 214,
+											"end": 436,
+											"jumpType": "[out]",
+											"name": "JUMP",
+											"source": 1
+										}
+									]
+								}
+							},
+							"sourceList": [
+								"contracts/first.sol",
+								"#utility.yul"
+							]
+						},
+						"methodIdentifiers": {
+							"aad()": "401742ea",
+							"assad()": "70c6cd7c",
+							"assd()": "38e0090c",
+							"gas()": "6ca7c216"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.18+commit.87f61d96\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"aad\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"assad\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"assd\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"gas\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/first.sol\":\"demo\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/first.sol\":{\"keccak256\":\"0xe23bbd29759a10af0994b91514fb7f628815360ad438566b20934ff220e90edd\",\"license\":\"UNLICENSED    ( License number )\",\"urls\":[\"bzz-raw://c6eed099bfc602fb04f9f9083809906cab3a0fe660335979834b65a841e3c3ed\",\"dweb:/ipfs/QmT78Tvowcs6Xxu28JkwSwdU8zicztGCyC1cVx6Bz9P7bo\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [
+							{
+								"astId": 3,
+								"contract": "contracts/first.sol:demo",
+								"label": "gas",
+								"offset": 0,
+								"slot": "0",
+								"type": "t_uint256"
+							},
+							{
+								"astId": 5,
+								"contract": "contracts/first.sol:demo",
+								"label": "assad",
+								"offset": 0,
+								"slot": "1",
+								"type": "t_uint256"
+							},
+							{
+								"astId": 7,
+								"contract": "contracts/first.sol:demo",
+								"label": "assd",
+								"offset": 0,
+								"slot": "2",
+								"type": "t_uint256"
+							},
+							{
+								"astId": 9,
+								"contract": "contracts/first.sol:demo",
+								"label": "aad",
+								"offset": 0,
+								"slot": "3",
+								"type": "t_uint256"
+							}
+						],
+						"types": {
+							"t_uint256": {
+								"encoding": "inplace",
+								"label": "uint256",
+								"numberOfBytes": "32"
+							}
+						}
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"contracts/first.sol": {
+				"ast": {
+					"absolutePath": "contracts/first.sol",
+					"exportedSymbols": {
+						"demo": [
+							19
+						]
+					},
+					"id": 20,
+					"license": "UNLICENSED    ( License number )",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								">=",
+								"0.8",
+								".2",
+								"<",
+								"0.9",
+								".0"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "62:31:0"
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "demo",
+							"contractDependencies": [],
+							"contractKind": "contract",
+							"fullyImplemented": true,
+							"id": 19,
+							"linearizedBaseContracts": [
+								19
+							],
+							"name": "demo",
+							"nameLocation": "36152:4:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"constant": false,
+									"functionSelector": "6ca7c216",
+									"id": 3,
+									"mutability": "mutable",
+									"name": "gas",
+									"nameLocation": "36177:3:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 19,
+									"src": "36165:15:0",
+									"stateVariable": true,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 2,
+										"name": "uint",
+										"nodeType": "ElementaryTypeName",
+										"src": "36165:4:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "public"
+								},
+								{
+									"constant": false,
+									"functionSelector": "70c6cd7c",
+									"id": 5,
+									"mutability": "mutable",
+									"name": "assad",
+									"nameLocation": "36199:5:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 19,
+									"src": "36187:17:0",
+									"stateVariable": true,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 4,
+										"name": "uint",
+										"nodeType": "ElementaryTypeName",
+										"src": "36187:4:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "public"
+								},
+								{
+									"constant": false,
+									"functionSelector": "38e0090c",
+									"id": 7,
+									"mutability": "mutable",
+									"name": "assd",
+									"nameLocation": "36223:4:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 19,
+									"src": "36211:16:0",
+									"stateVariable": true,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 6,
+										"name": "uint",
+										"nodeType": "ElementaryTypeName",
+										"src": "36211:4:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "public"
+								},
+								{
+									"constant": false,
+									"functionSelector": "401742ea",
+									"id": 9,
+									"mutability": "mutable",
+									"name": "aad",
+									"nameLocation": "36246:3:0",
+									"nodeType": "VariableDeclaration",
+									"scope": 19,
+									"src": "36234:15:0",
+									"stateVariable": true,
+									"storageLocation": "default",
+									"typeDescriptions": {
+										"typeIdentifier": "t_uint256",
+										"typeString": "uint256"
+									},
+									"typeName": {
+										"id": 8,
+										"name": "uint",
+										"nodeType": "ElementaryTypeName",
+										"src": "36234:4:0",
+										"typeDescriptions": {
+											"typeIdentifier": "t_uint256",
+											"typeString": "uint256"
+										}
+									},
+									"visibility": "public"
+								},
+								{
+									"body": {
+										"id": 17,
+										"nodeType": "Block",
+										"src": "36271:39:0",
+										"statements": [
+											{
+												"expression": {
+													"id": 15,
+													"isConstant": false,
+													"isLValue": false,
+													"isPure": false,
+													"lValueRequested": false,
+													"leftHandSide": {
+														"id": 12,
+														"name": "gas",
+														"nodeType": "Identifier",
+														"overloadedDeclarations": [],
+														"referencedDeclaration": 3,
+														"src": "36282:3:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_uint256",
+															"typeString": "uint256"
+														}
+													},
+													"nodeType": "Assignment",
+													"operator": "=",
+													"rightHandSide": {
+														"expression": {
+															"id": 13,
+															"name": "block",
+															"nodeType": "Identifier",
+															"overloadedDeclarations": [],
+															"referencedDeclaration": 4294967292,
+															"src": "36288:5:0",
+															"typeDescriptions": {
+																"typeIdentifier": "t_magic_block",
+																"typeString": "block"
+															}
+														},
+														"id": 14,
+														"isConstant": false,
+														"isLValue": false,
+														"isPure": false,
+														"lValueRequested": false,
+														"memberLocation": "36294:8:0",
+														"memberName": "gaslimit",
+														"nodeType": "MemberAccess",
+														"src": "36288:14:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_uint256",
+															"typeString": "uint256"
+														}
+													},
+													"src": "36282:20:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"id": 16,
+												"nodeType": "ExpressionStatement",
+												"src": "36282:20:0"
+											}
+										]
+									},
+									"id": 18,
+									"implemented": true,
+									"kind": "constructor",
+									"modifiers": [],
+									"name": "",
+									"nameLocation": "-1:-1:-1",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 10,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "36269:2:0"
+									},
+									"returnParameters": {
+										"id": 11,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "36271:0:0"
+									},
+									"scope": 19,
+									"src": "36258:52:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "public"
+								}
+							],
+							"scope": 20,
+							"src": "36143:170:0",
+							"usedErrors": []
+						}
+					],
+					"src": "62:36251:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}
